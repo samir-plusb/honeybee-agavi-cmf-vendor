@@ -46,7 +46,7 @@
         </finders>
 
         <query_services>
-            <query_service name="{{ vendor_prefix }}.{{ package_prefix }}.{{ resource_prefix }}::projection.{{ variant_prefix }}::query_service" class="Honeybee\Infrastructure\DataAccess\Query\ProjectionQueryService">
+            <query_service name="{{ vendor_prefix }}.{{ package_prefix }}.{{ resource_prefix }}::projection.{{ variant_prefix }}::view_store::query_service" class="Honeybee\Infrastructure\DataAccess\Query\ProjectionQueryService">
                 <finder_mappings>
                     <finder_mapping name="default">
                         <finder>{{ vendor_prefix }}.{{ package_prefix }}.{{ resource_prefix }}::projection.{{ variant_prefix }}::view_store::finder</finder>
