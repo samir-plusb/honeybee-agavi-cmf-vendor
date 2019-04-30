@@ -90,23 +90,33 @@ class EmbedSuccessView extends View
                 $this->getOutputFormat(),
                 'field_' . $parent_attribute->getName()
             );
-            // view_template
-            $parent_render_settings = [];
+
+            $parent_attribute_settings = array_replace_recursive(
+                $parent_type_renderer_config->toArray(),
+                $parent_renderer_config->toArray()
+            );
+
             if ($resource) {
                 $view_template = $this->getServiceLocator()->getViewTemplateService()->getViewTemplate(
                     $view_scope,
                     $resource->getType()->getPrefix(),
                     $this->getOutputFormat()
                 );
-                $view_template_fields = $view_template->extractAllFields();
-                $parent_render_settings = $view_template_fields[$parent_attribute->getPath()]->getConfig();
-            }
 
-            $parent_attribute_settings = array_replace_recursive(
-                $parent_type_renderer_config->toArray(),
-                $parent_renderer_config->toArray(),
-                $parent_render_settings->toArray()
-            );
+                // view_template
+                $parent_render_settings = [];
+                $view_template_fields = $view_template->extractAllFields();
+
+                if(array_key_exists($parent_attribute->getPath(), $view_template_fields)){
+                    $parent_render_settings = $view_template_fields[$parent_attribute->getPath()]->getConfig();
+
+                    $parent_attribute_settings = array_replace_recursive(
+                        $parent_attribute_settings,
+                        $parent_render_settings->toArray()
+                    );
+
+                }
+            }
         }
 
         return new ArrayConfig($parent_attribute_settings);
