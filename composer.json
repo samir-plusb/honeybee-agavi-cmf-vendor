@@ -28,14 +28,6 @@
         }
     ],
 
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@github.com:samir-plusb/honeybee-1.git"
-        }
-    ],
-
-
     "support": {
         "issues": "https://github.com/honeybee/honeybee-agavi-cmf-vendor/issues",
         "irc": "irc://irc.freenode.org/honeybee"
@@ -60,7 +52,7 @@
         "php": ">=7.0.0",
         "lib-libxml": "*",
         "honeybee/agavi": "1.0.12",
-        "honeybee/honeybee": "dev-master",
+        "honeybee/honeybee": "^0.2.20",
         "michelf/php-markdown": "^1.7",
         "monolog/monolog": "^1.22",
         "mthaml/mthaml": "^1.8",

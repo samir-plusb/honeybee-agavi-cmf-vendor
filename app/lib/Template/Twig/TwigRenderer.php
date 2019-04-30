@@ -80,8 +80,9 @@ class TwigRenderer implements TemplateRendererInterface
      */
     public function renderToString($template, array $data = [], array $settings = [])
     {
-        return $this->twig->createTemplate($template)->render($data);
+        return $this->twig->render($this->twig->createTemplate($template), $data, $settings);
     }
+
     /**
      * Available settings:
      *

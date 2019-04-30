@@ -92,7 +92,7 @@ class View extends AgaviView
      * Initialize the view and set default member variables available in all
      * views.
      *
-     * @param AgaviExecutionContainer $container
+     * @param \AgaviExecutionContainer $container
      */
     public function initialize(AgaviExecutionContainer $container)
     {
@@ -124,7 +124,7 @@ class View extends AgaviView
     }
 
     /**
-     * @return ServiceLocatorInterface
+     * @return \Honeybee\ServiceLocatorInterface
      */
     protected function getServiceLocator()
     {
@@ -142,7 +142,7 @@ class View extends AgaviView
     }
 
     /**
-     * @return boolean whether the current execution container is a slot or not.
+     * @return bool whether the current execution container is a slot or not.
      */
     protected function isSlot()
     {
@@ -150,7 +150,7 @@ class View extends AgaviView
     }
 
     /**
-     * @return boolean whether the current execution container is the result of an action being forwarded
+     * @return bool whether the current execution container is the result of an action being forwarded
      */
     protected function wasForwarded()
     {
@@ -160,9 +160,9 @@ class View extends AgaviView
     /**
      * Convenience method to configure the layout and some defaults like a page title when using the html output type.
      *
-     * @param AgaviRequestDataHolder $request_data
+     * @param \AgaviRequestDataHolder $request_data
      * @param string $layout_name layout name from output_types.xml file
-     * @param boolean $add_fpf_info enables the addition of the validation report to the top-most container for the FPF
+     * @param bool $add_fpf_info enables the addition of the validation report to the top-most container for the FPF
      */
     protected function setupHtml(AgaviRequestDataHolder $request_data, $layout_name = null, $add_fpf_info = true)
     {
@@ -639,15 +639,22 @@ class View extends AgaviView
              * @todo Would a 500 error actually be more correct? Yes maybe, but we executed the action. Hm. Meh.
              */
             if (!AgaviConfig::get('core.debug', false)) {
+                $uri = '';
+                if (php_sapi_name() !== 'cli' && isset($_SERVER['REQUEST_URI'])) {
+                    $uri = $_SERVER['REQUEST_URI'];
+                } else {
+                    $uri = $this->routing->getInput();
+                }
                 $this->logError(
                     sprintf(
                         'The view "%1$s" does not implement an "%2$s()" method. ' .
                         'Sending a generic 406 response (as debug is false). ' .
                         'The view should implement "%1$s::%2$s()" or handle this ' .
-                        'situation in one of the base views (e.g. "%3$s").',
+                        'situation in one of the base views (e.g. "%3$s"). URI="%4$s".',
                         get_class($this),
                         $method_name,
-                        get_class()
+                        get_class(),
+                        $uri
                     )
                 );
 
